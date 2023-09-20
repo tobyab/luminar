@@ -1,17 +1,15 @@
 import prisma from "@/utils/prisma";
+import { NextRequest } from "next/server";
 
-export async function POST() {
-  /* const user = true; // WARN: this is just a placeholder.
-
-  if (!user) return new Response("Unauthorized", { status: 401 });*/
+export async function POST(request: NextRequest) {
+  const body = await request.json();
 
   await prisma.post.create({
     data: {
-      content: "hello world",
+      content: body.content,
       createdAt: new Date().toISOString(),
     },
   });
-  return new Response("Hello, Next.js!", {
-    status: 200,
-  });
+
+  return new Response(JSON.stringify("serverRes"), { status: 200 });
 }

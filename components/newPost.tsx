@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 export default function NewPost() {
@@ -6,12 +7,17 @@ export default function NewPost() {
   const [load, setLoad] = useState(false);
 
   async function makePost(e: { preventDefault: () => void }) {
+    const changes = {
+      content: post,
+      creator: "Toby",
+    };
+
     try {
       e.preventDefault();
       setLoad(true);
       await fetch("/api/post", {
         method: "POST",
-        body: JSON.stringify({ post }),
+        body: JSON.stringify(changes),
         headers: {
           "Content-Type": "application/json",
         },
@@ -21,6 +27,7 @@ export default function NewPost() {
     } finally {
       setLoad(false);
     }
+    console.log("Hello! I am a post!");
   }
 
   return (
@@ -28,7 +35,7 @@ export default function NewPost() {
       <form>
         <input
           className="outline-none"
-          placeholder="Post something!"
+          placeholder="What's on your mind?"
           onChange={(e) => setPost(e.target.value)}
         />
         <button className="bg-gray-100 rounded-lg p-2" onClick={makePost}>
