@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function NewPost() {
   const [post, setPost] = useState("");
   const [load, setLoad] = useState(false);
+  const { data: session } = useSession();
 
   async function makePost(e: { preventDefault: () => void }) {
     const changes = {
@@ -32,6 +34,7 @@ export default function NewPost() {
 
   return (
     <div>
+      {!session ? "SIgn in!" : "Hello!"}
       <form>
         <input
           className="outline-none"
