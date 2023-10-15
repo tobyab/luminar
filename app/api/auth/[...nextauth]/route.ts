@@ -14,7 +14,6 @@ const handler = NextAuth({
   ],
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
-  pages: { signIn: "/signin" },
   callbacks: {
     signIn: async ({ user, account }: any) => {
       const returningUser = await prisma.user.findUnique({
@@ -29,7 +28,6 @@ const handler = NextAuth({
             where: { email: user.email as string },
             data: {
               name: user.name as string,
-              image: user.image as string,
             },
           });
         }
@@ -70,25 +68,6 @@ const handler = NextAuth({
           image: token.picture,
         },
       };
-    },
-  },
-  events: {
-    async signIn(message) {
-      if (message.isNewUser) {
-        const email = message.user.email as string;
-        const user = await prisma.user.findUnique({
-          where: { email },
-          select: {
-            createdAt: true,
-          },
-        });
-        if (
-          user?.createdAt &&
-          new Date(user.createdAt).getTime() === new Date().getTime()
-        ) {
-          console.log("new user!");
-        }
-      }
     },
   },
 });
