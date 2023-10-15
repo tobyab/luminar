@@ -10,13 +10,14 @@ export default async function Home() {
   });
 
   return (
-    <div className="justify-center grid place-items-center h-screen">
+    <div className="justify-center grid place-items-center">
       <div>
         <NewPost />
-        <div>
+        <div className="mt-8">
           {posts.map((post) => (
             <div key={post.id}>
               <P>{post.content}</P>
+              <S>{post.authorId}</S>
               <S>{post.createdAt.toString()}</S>
             </div>
           ))}
